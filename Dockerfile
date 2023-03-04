@@ -19,4 +19,6 @@ RUN echo "$(whoami)" > /tmp/user2.html
 VOLUME /var/www/html/
 
 USER root
-CMD apachectl -DFOREGROUND
+
+COPY run.sh /run.sh
+CMD sh /run.sh

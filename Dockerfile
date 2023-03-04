@@ -1,14 +1,22 @@
 FROM centos:7
 
+LABEL version=1.0
+LABEL description="This is an apache image"
+
 RUN yum install httpd -y
 
-WORKDIR /var/www/html
+COPY startbootstrap-freelancer-master /var/www/html
 
-COPY startbootstrap-freelancer-master .
+RUN echo "$(whoami)" > /var/www/html/user1.html
+RUN useradd ricardo
+#Dar permisos a usuario ricardo
+RUN chown ricardo /var/www/html -R
 
-ENV contenido prueba
-RUN echo "${contenido}" > /var/www/html/prueba.html
+USER ricardo
 
-EXPOSE 8080
+RUN echo "$(whoami)" > /tmp/user2.html
 
+VOLUME /var/www/html/
+
+USER root
 CMD apachectl -DFOREGROUND
